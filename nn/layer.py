@@ -1,5 +1,5 @@
 import numpy as np
-from neuron import *
+from neuron import Neuron
 class Layer():
     def __init__(self,n_weights:int,n_neurons:int) -> None:
         
