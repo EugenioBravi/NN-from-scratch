@@ -1,8 +1,7 @@
 import numpy as np
-import random
 
 def spiral_dataset(samples,classes):
-    random.seed(0)
+    np.random.seed(0)
     N = samples # number of points per class
     D = 2 # dimensionality
     K = classes # number of classes
