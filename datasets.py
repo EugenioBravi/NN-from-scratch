@@ -1,5 +1,6 @@
 import numpy as np
 import random
+
 def spiral_dataset(samples,classes):
     random.seed(0)
     N = samples # number of points per class
@@ -20,7 +21,7 @@ def data_split(X,y,p):
     if p <= 0 or p >=1:
         raise Exception('p value should be between 0 and 1') 
     
-    split = len(X)* p
+    split = round(len(X)* p)
     X_train = X[:split]
     X_test = X[split:]
     y_train = y[:split]
