@@ -63,7 +63,7 @@ class Network():
             self.layers.append(layer)
 
     def forward(self,input:[float]) -> [float]:
-        if type(input) != list:
+        if type(input) != list and type(input) != np.ndarray:
             raise Exception('The input should be a list')
         layers_input = input
         for layer in self.layers:
