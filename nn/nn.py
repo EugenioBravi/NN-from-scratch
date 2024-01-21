@@ -9,9 +9,9 @@ class Neuron():
         if type(n_weights) != int or n_weights <= 0 or n_weights >20 :
             raise Exception('The param n_weights should be an int beetwen 1 and 20')
 
-        self.weights = [round(random.uniform(-1,1),2) for _ in range(n_weights)] 
+        self.weights = [random.uniform(-1,1) for _ in range(n_weights)] 
         if bias == True:
-            self.bias = round(random.uniform(-1,1),2)
+            self.bias = random.uniform(-1,1)
         else:
             self.bias = 0
 
@@ -24,7 +24,9 @@ class Layer():
             raise Exception('The param n_weights should be an int beetwen 1 and 20')
         
         self.neurons=[Neuron(n_weights) for _ in range(n_neurons)]
-        self.n_weights = n_weights 
+        self.n_weights = n_weights
+        self.weights = self.get_weights() 
+        self.bias = self.get_bias()
         
     def forward(self,input:[[float]]) -> [float]:
 
@@ -32,7 +34,7 @@ class Layer():
             raise Exception(f'The input should be a list of len(weight)={self.n_weights}, {input[0]}')
         
         self.input = input
-        output = np.dot(input,self.get_weights()) + self.get_bias()
+        output = np.dot(input,self.weights.T) + self.bias
         return output
     
     #Returns the traspose array of weights of the layer
@@ -40,7 +42,7 @@ class Layer():
         weights = []
         for neuron in self.neurons:
             weights.append(neuron.weights)
-        return np.array(weights).T
+        return np.array(weights)
     
     #Returns the array of bias of the layer
     def get_bias(self)->[float]:
