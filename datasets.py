@@ -19,7 +19,11 @@ def data_split(X,y,p):
     #splits the data in a percentage p (0 > p < 1)
     if p <= 0 or p >=1:
         raise Exception('p value should be between 0 and 1') 
-    
+    #Shuffles the data
+    perm = np.random.permutation(len(X))
+    X = X[perm]
+    y = y[perm]
+    #Splits the data 
     split = round(len(X)* p)
     X_train = X[:split]
     X_test = X[split:]
