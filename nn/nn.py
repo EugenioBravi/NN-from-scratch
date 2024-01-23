@@ -28,13 +28,13 @@ class Layer():
         self.weights = self.get_weights() 
         self.bias = self.get_bias()
         
-    def forward(self,input:[[float]]) -> [float]:
+    def forward(self,inputs:[[float]]) -> [float]:
 
-        if len(input[0]) != self.n_weights:
-            raise Exception(f'The input should be a list of len(weight)={self.n_weights}, {input[0]}')
+        if len(inputs[0]) != self.n_weights:
+            raise Exception(f'The inputs should be a list of len(weight)={self.n_weights}, {inputs[0]}')
         
-        self.input = input
-        output = np.dot(input,self.weights.T) + self.bias
+        self.inputs = inputs
+        output = np.dot(inputs,self.weights.T) + self.bias
         return output
     
     #Returns the traspose array of weights of the layer
