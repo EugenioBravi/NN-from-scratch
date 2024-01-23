@@ -10,6 +10,7 @@ class ReLU():
         self.dinputs = dvalues.copy()
         #Zero gradient where input values were negetave
         self.dinputs[self.inputs <= 0] = 0
+        return self.dinputs
 
 class softmax():
     def forward(self,inputs):
@@ -36,3 +37,4 @@ class softmax():
             # Calculate sample-wise gradient
             # and add it to the array of sample gradients
             self.dinputs[index] = np.dot(jacobian_matrix, single_dvalues)
+        return self.dinputs

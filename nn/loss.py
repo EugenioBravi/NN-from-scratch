@@ -41,3 +41,4 @@ class Categorical_cross_entropy(Loss):
         # Normalize gradient to obtain the average gradient per sample
         #Normalizing the gradient by the number of samples is to make the gradient values independent of the size of the dataset
         self.dinputs = self.dinputs / samples
+        return self.dinputs
