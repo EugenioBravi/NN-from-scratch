@@ -1,11 +1,15 @@
 import numpy as np
 
 class ReLU():
-    def __init__(self):
-        pass
+
     def forward(self,inputs):
+        self.inputs = inputs
         self.output = np.maximum(0,inputs)
         return self.output
+    def backward(self, dvalues):
+        self.dinputs = dvalues.copy()
+        #Zero gradient where input values were negetave
+        self.dinputs[self.inputs <= 0] = 0
 
 class softmax():
     def forward(self,inputs):
