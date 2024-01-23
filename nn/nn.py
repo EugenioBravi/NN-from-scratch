@@ -55,6 +55,7 @@ class Layer():
         self.dweights = np.dot(self.inputs.T, dvalues)
         self.dbiases = np.sum(dvalues, axis=0,keepdims=True)
         self.dinputs = np.dot(dvalues, self.get_weights().T)
+        return self.dinputs
 
 class Network():
     def __init__(self) -> None:
@@ -74,3 +75,7 @@ class Network():
         for layer in self.layers:
             layers_input = layer.forward(layers_input)
         return layers_input
+    
+    def backward(self,dvalues):
+        for layer in reversed(self.layers):
+            dvalues = layer.backward(dvalues)
