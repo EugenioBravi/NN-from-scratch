@@ -8,7 +8,13 @@ class Loss():
         return data_loss
 
 class Categorical_cross_entropy(Loss):
+    def __init__(self,network):
+        self.network = network
+
     def forward(self,y_pred,y_true):
+
+        self.y_pred = y_pred
+        self.y_true = y_true
         # Number of samples in a batch
         samples = len(y_pred)
         # Clip data to prevent division by 0
@@ -30,15 +36,18 @@ class Categorical_cross_entropy(Loss):
         negative_log_likelihoods = -np.log(correct_confidences)
         return negative_log_likelihoods
     
-    def backward(self, dvalues, y_true):
+    def backward(self):
+
+        dvalues = self.y_pred
+
         samples = len(dvalues)
         labels = len(dvalues[0])
         # If labels are sparse, turn them into one-hot vector
-        if len(y_true.shape) == 1:
-            y_true = np.eye(labels)[y_true]
+        if len(self.y_true.shape) == 1:
+            self.y_true = np.eye(labels)[self.y_true]
         # Calculate gradient
-        self.dinputs = -y_true / dvalues
+        self.dinputs = -self.y_true / dvalues
         # Normalize gradient to obtain the average gradient per sample
         #Normalizing the gradient by the number of samples is to make the gradient values independent of the size of the dataset
         self.dinputs = self.dinputs / samples
-        return self.dinputs
+        self.network.backward(self.dinputs)
