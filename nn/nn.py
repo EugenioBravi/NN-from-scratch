@@ -1,4 +1,3 @@
-import random
 import numpy as np
 from typing import Type
 
@@ -9,11 +8,11 @@ class Neuron():
         if type(n_weights) != int or n_weights <= 0 or n_weights >20 :
             raise Exception('The param n_weights should be an int beetwen 1 and 20')
 
-        self.weights = [random.uniform(-1,1) for _ in range(n_weights)] 
+        self.weights = np.random.uniform(-1, 1, n_weights) 
         if bias == True:
-            self.bias = random.uniform(-1,1)
+            self.bias = np.random.uniform(-1, 1)
         else:
-            self.bias = 0
+            self.bias = np.float64(0.0)
 
 class Layer():
     def __init__(self,n_weights:int,n_neurons:int) -> None:
@@ -26,7 +25,7 @@ class Layer():
         self.neurons=[Neuron(n_weights) for _ in range(n_neurons)]
         self.n_weights = n_weights
         self.weights = self.get_weights() 
-        self.bias = self.get_bias()
+        self.biases = self.get_biases()
         
     def forward(self,inputs:[[float]]) -> [float]:
 
@@ -34,7 +33,7 @@ class Layer():
             raise Exception(f'The inputs should be a list of len(weight)={self.n_weights}, {inputs[0]}')
         
         self.inputs = inputs
-        output = np.dot(inputs,self.weights.T) + self.bias
+        output = np.dot(inputs,self.weights.T) + self.biases
         return output
     
     #Returns the traspose array of weights of the layer
@@ -44,16 +43,16 @@ class Layer():
             weights.append(neuron.weights)
         return np.array(weights)
     
-    #Returns the array of bias of the layer
-    def get_bias(self)->[float]:
-        bias = []
+    #Returns the array of biases of the layer
+    def get_biases(self)->[float]:
+        biases = []
         for neuron in self.neurons:
-            bias.append(neuron.bias)
-        return np.array(bias)
+            biases.append(neuron.bias)
+        return np.array(biases)
     
     def backward(self,dvalues):
         self.dweights = np.dot(self.inputs.T, dvalues)
-        self.dbiases = np.sum(dvalues, axis=0,keepdims=True)
+        self.dbiases = np.sum(dvalues, axis=0,keepdims=True, dtype=np.float64)
         self.dinputs = np.dot(dvalues, self.weights)
         return self.dinputs
 
